@@ -53,7 +53,7 @@
     </div>
 
     <p id="feedback"></p>
-    <p>Guesses: <span id="count">0</span>/3</p>
+    <p>Guesses: <span id="count">0</span>/5</p>
 
     <div class="stats">
         Daily Streak: <span id="streak">0</span> 🔥
@@ -63,19 +63,45 @@
         // --- 1. YOUR DATA BANK ---
         const allQuotes = [
             { quote: "Leviathan says the Nightmare this time is "kewl" What does "kewl" mean?", 
-              name: "Simeon", game: "Shall we Date", 
-              origin: "Home Screen tips", 
+              name: "Simeon", 
+              origin: "Shall we date - Homescreen", 
+              specie: "Angel",
               img: "https://img.wattpad.com/c3f9fcc4511e7efbade38631f1d58630dc944095/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f524e39584f396536756357564f513d3d2d3936353438343233372e313638383835646335366537653936653137383836393534393630362e6a7067?s=fit&w=720&h=720" },
-            { quote: "I don't recall giving you permission to speak.", 
-              name: "Lucifer", 
-              game: "Main Story Lesson 1", 
-              origin: "Demon", 
-              img: "https://example.com/lucifer.png" },
-            { quote: "Gya-ha!", 
-              name: "Little D No. 2", 
-              game: "RAD Hallways", 
-              origin: "Spirit", 
-              img: "https://example.com/littled.png" }
+            { quote: "I feel like we've shared a bond of some sorts, one that's almost impossible to put into words. It's a strangely powerful feeling", 
+              name: "Diavolo", 
+              origin: "Nightbringer - Main Story", 
+              specie: "Demon",
+              img: "https://static.wikia.nocookie.net/obey-me/images/e/e7/It%27s_Lonely_Being_Me_Devilgram.png/revision/latest?cb=20201209235033" },
+            { quote: "what you want me to dree up as an octopus and latch unto lucifer", 
+              name: "Leviathan",  
+              origin: "Obey me - The Anime", 
+              specie: "Demon",
+              img: "https://static.wikia.nocookie.net/obey-me/images/0/0a/Leviathan.png/revision/latest?cb=20211225113055" },
+            { quote: "The world i saw after meeting you will someday fade away like rolling waves", 
+              name: "Satan",  
+              origin: "Character Song", 
+              specie: "Demon",
+              img: "https://obeymewiki.com/images/e/e2/Satan.png" },
+          { quote: "getting something from you doesnt feel half bad", 
+              name: "Solomon",  
+              origin: "surprise guest - getting whipped", 
+              specie: "Human",
+              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRleI5M3t4YFafeMEoMT4xsPygU8hQXo_s5xg&s" },
+            { quote: "your presence weighs on my mind. No matter what i'm doing, the nexr thing i know your face appears in my mind. when that happens i find myself unable to do anything.", 
+              name: "Mephistopheles",  
+              origin: "Nightbringer - Calls", 
+              specie: "Demon",
+              img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9OnilucTZLbJywxW_Ik_GT-1M9cPivwGkWw&s" },
+            { quote: "Reporting live from Satan's disorganized mess of a room!", 
+              name: "MC",  
+              origin: "shall we date - messages", 
+              specie: "Human",
+              img: "https://obeymewiki.com/images/thumb/c/c5/Main_Character.png/465px-Main_Character.png" },
+            
+            
+        
+        
+        
             
 
 
@@ -120,7 +146,11 @@
                     document.getElementById('hint-origin').innerText = "Hint (Origin): " + todayPuzzle.origin;
                     document.getElementById('hint-origin').style.display = "block";
                 }
-                if (guessCount >= 3) {
+                if (guessCount === 4) {
+                    document.getElementById('hint-specie').innerText = "Hint (Specie): " + todayPuzzle.origin;
+                    document.getElementById('hint-origin').style.display = "block";
+                }
+                if (guessCount >= 5) {
                     feedback.innerText = "Game Over! It was " + todayPuzzle.name;
                     endGame(false);
                 }
