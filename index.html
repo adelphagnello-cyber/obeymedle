@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Obey Me! Quote-dle</title>
+    <style>
+        body { background: #1a0b2e; color: #f0e6ff; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .box { border: 2px solid #ce93d8; padding: 20px; margin: 20px auto; max-width: 500px; border-radius: 15px; }
+        .hint { color: #ffd700; margin-top: 10px; font-style: italic; display: none; }
+        select { padding: 10px; border-radius: 5px; width: 200px; }
+        button { padding: 10px 20px; background: #7b1fa2; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>RAD Quote-dle</h1>
+    <div class="box">
+        <p id="quote">"I'll have you know I'm the Great Mammon!"</p>
+        <div id="hint-origin" class="hint">Origin: ???</div>
+        <div id="hint-species" class="hint">Species: ???</div>
+    </div>
+
+    <select id="guess-dropdown">
+        <option value="Lucifer">Lucifer</option>
+        <option value="Mammon">Mammon</option>
+        <option value="Leviathan">Leviathan</option>
+        <option value="Beelzebub">Beelzebub</option>
+        </select>
+    <button onclick="checkGuess()">Submit Guess</button>
+
+    <p>Guesses: <span id="count">0</span>/5</p>
+
+    <script>
+        let guessCount = 0;
+        const answer = { name: "Mammon", origin: "Main Story Lesson 1", species: "Demon" };
+
+        function checkGuess() {
+            const userGuess = document.getElementById('guess-dropdown').value;
+            guessCount++;
+            document.getElementById('count').innerText = guessCount;
+
+            if (userGuess === answer.name) {
+                alert("CORRECT! You've made a pact!");
+            } else {
+                if (guessCount === 2) {
+                    document.getElementById('hint-origin').innerText = "Origin: " + answer.origin;
+                    document.getElementById('hint-origin').style.display = "block";
+                }
+                if (guessCount === 4) {
+                    document.getElementById('hint-species').innerText = "Species: " + answer.species;
+                    document.getElementById('hint-species').style.display = "block";
+                }
+                if (guessCount >= 5) alert("Game Over! It was " + answer.name);
+            }
+        }
+    </script>
+</body>
+</html>
