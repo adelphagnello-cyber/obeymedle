@@ -3,52 +3,134 @@
 <head>
     <title>Obey Me! Quote-dle</title>
     <style>
-        body { background: #1a0b2e; color: #f0e6ff; font-family: 'Segoe UI', sans-serif; text-align: center; }
-        .box { border: 2px solid #ce93d8; padding: 20px; margin: 20px auto; max-width: 500px; border-radius: 15px; }
-        .hint { color: #ffd700; margin-top: 10px; font-style: italic; display: none; }
-        select { padding: 10px; border-radius: 5px; width: 200px; }
-        button { padding: 10px 20px; background: #7b1fa2; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        body { background: #1a0b2e; color: #f0e6ff; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
+        .box { border: 3px solid #ffd700; padding: 20px; margin: 20px auto; max-width: 500px; border-radius: 15px; background: rgba(0,0,0,0.3); }
+        .hint { color: #ce93d8; margin-top: 10px; font-style: italic; display: none; font-weight: bold; }
+        #char-img { width: 150px; display: none; margin: 10px auto; border-radius: 10px; border: 2px solid #ffd700; }
+        select { padding: 10px; border-radius: 5px; width: 250px; background: #2e1a47; color: white; border: 1px solid #ffd700; }
+        button { padding: 10px 20px; background: #7b1fa2; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .stats { margin-top: 20px; color: #ffd700; font-size: 1.2rem; }
+        #feedback { margin-top: 10px; font-weight: bold; min-height: 20px; }
     </style>
 </head>
 <body>
     <h1>RAD Quote-dle</h1>
+    
     <div class="box">
-        <p id="quote">"I'll have you know I'm the Great Mammon!"</p>
-        <div id="hint-origin" class="hint">Origin: ???</div>
-        <div id="hint-species" class="hint">Species: ???</div>
+        <p id="quote-display">"Loading today's chaos..."</p>
+        <img id="char-img" src="" alt="Character Reveal">
+        <div id="hint-origin" class="hint"></div>
+        <div id="hint-species" class="hint"></div>
     </div>
 
-    <select id="guess-dropdown">
-        <option value="Lucifer">Lucifer</option>
-        <option value="Mammon">Mammon</option>
-        <option value="Leviathan">Leviathan</option>
-        <option value="Beelzebub">Beelzebub</option>
+    <div id="game-ui">
+        <select id="guess-dropdown">
+            <option value="">-- Who said this? --</option>
+            <option value="Adam">Adam</option>
+<option value="Asmodeus">Asmodeus</option>
+<option value="Barbatos">Barbatos</option>
+<option value="Beelzebub">Beelzebub</option>
+<option value="Belphegor">Belphegor</option>
+<option value="Diavolo">Diavolo</option>
+<option value="Leviathan">Leviathan</option>
+<option value="Lilith">Lilith</option>
+<option value="Little D no.2">Little D no.2</option>
+<option value="Luke">Luke</option>
+<option value="Lucifer">Lucifer</option>
+<option value="Mammon">Mammon</option>
+<option value="Mephistopheles">Mephistopheles</option>
+<option value="Michael">Michael</option>
+<option value="MC">MC</option>
+<option value="Nightbringer">Nightbringer</option>
+<option value="Satan">Satan</option>
+<option value="Simeon">Simeon</option>
+<option value="Solomon">Solomon</option>
+<option value="Raphael">Raphael</option>
+<option value="Ruri-Chan">Ruri-Chan</option>
+<option value="Thirteen">Thirteen</option>
         </select>
-    <button onclick="checkGuess()">Submit Guess</button>
+        <br>
+        <button onclick="checkGuess()">Submit Guess</button>
+    </div>
 
+    <p id="feedback"></p>
     <p>Guesses: <span id="count">0</span>/5</p>
 
+    <div class="stats">
+        Daily Streak: <span id="streak">0</span> 🔥
+    </div>
+
     <script>
+        // --- 1. YOUR DATA BANK ---
+        const allQuotes = [
+            { quote: "I'll have you know I'm the Great Mammon!", name: "Mammon", origin: "Main Story Lesson 1", species: "Demon", img: "https://example.com/mammon.png" },
+            { quote: "I don't recall giving you permission to speak.", name: "Lucifer", origin: "Main Story Lesson 1", species: "Demon", img: "https://example.com/lucifer.png" },
+            { quote: "Gya-ha!", name: "Little D No. 2", origin: "RAD Hallways", species: "Spirit", img: "https://example.com/littled.png" }
+        ];
+
+        // --- 2. DAILY SEED LOGIC ---
+        const today = new Date().toDateString();
+        const seed = today.split('').reduce((a,b) => { a=((a<<5)-a)+b.charCodeAt(0); return a&a },0);
+        const dailyIndex = Math.abs(seed) % allQuotes.length;
+        const todayPuzzle = allQuotes[dailyIndex];
+
+        // --- 3. GAME STATE ---
         let guessCount = 0;
-        const answer = { name: "Mammon", origin: "Main Story Lesson 1", species: "Demon" };
+        document.getElementById('quote-display').innerText = `"${todayPuzzle.quote}"`;
+
+        // Load Streak from "Memory"
+        let streak = localStorage.getItem('obeyStreak') || 0;
+        document.getElementById('streak').innerText = streak;
 
         function checkGuess() {
             const userGuess = document.getElementById('guess-dropdown').value;
+            const feedback = document.getElementById('feedback');
+            
+            if (!userGuess) return;
+
             guessCount++;
             document.getElementById('count').innerText = guessCount;
 
-            if (userGuess === answer.name) {
-                alert("CORRECT! You've made a pact!");
+            if (userGuess === todayPuzzle.name) {
+                // SUCCESS
+                feedback.innerText = "CORRECT! You've made a pact! 🎉";
+                feedback.style.color = "#4CAF50";
+                endGame(true);
             } else {
+                // WRONG
+                feedback.innerText = "Wrong! Try again, human!";
+                feedback.style.color = "#ff5252";
+
                 if (guessCount === 2) {
-                    document.getElementById('hint-origin').innerText = "Origin: " + answer.origin;
+                    document.getElementById('hint-origin').innerText = "Hint 1 (Origin): " + todayPuzzle.origin;
                     document.getElementById('hint-origin').style.display = "block";
                 }
                 if (guessCount === 4) {
-                    document.getElementById('hint-species').innerText = "Species: " + answer.species;
+                    document.getElementById('hint-species').innerText = "Hint 2 (Species): " + todayPuzzle.species;
                     document.getElementById('hint-species').style.display = "block";
                 }
-                if (guessCount >= 5) alert("Game Over! It was " + answer.name);
+                if (guessCount >= 5) {
+                    feedback.innerText = "Game Over! It was " + todayPuzzle.name;
+                    endGame(false);
+                }
+            }
+        }
+
+        function endGame(isWin) {
+            document.getElementById('game-ui').style.display = "none";
+            const img = document.getElementById('char-img');
+            img.src = todayPuzzle.img;
+            img.style.display = "block";
+
+            if (isWin) {
+                // Update Streak
+                let lastWin = localStorage.getItem('lastWinDate');
+                if (lastWin !== today) {
+                    streak++;
+                    localStorage.setItem('obeyStreak', streak);
+                    localStorage.setItem('lastWinDate', today);
+                    document.getElementById('streak').innerText = streak;
+                }
             }
         }
     </script>
