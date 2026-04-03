@@ -140,16 +140,15 @@
                 feedback.style.color = "#4CAF50";
                 endGame(true);
             } else {
-                // WRONG
                 feedback.innerText = "Wrong! Try again, human!";
                 feedback.style.color = "#ff5252";
 
                 if (guessCount === 2) {
-                    document.getElementById('hint-origin').innerText = "Hint (Origin): " + todayPuzzle.origin;
+                    document.getElementById('hint-origin').innerText = "Hint 1 (Origin): " + todayPuzzle.origin;
                     document.getElementById('hint-origin').style.display = "block";
                 }
                 if (guessCount === 4) {
-                    document.getElementById('hint-specie').innerText = "Hint (Specie): " + todayPuzzle.specie;
+                    document.getElementById('hint-specie').innerText = "Hint 2 (Specie): " + todayPuzzle.specie;
                     document.getElementById('hint-specie').style.display = "block";
                 }
                 if (guessCount >= 5) {
