@@ -3,7 +3,7 @@
 <head>
     <title>Obey Me! Quote-dle</title>
     <style>
-        body { background: #1a0b2e; color: #f0e6ff; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
+        body { background-image: url('https://static.wikia.nocookie.net/obey-me/images/b/b7/Devildom_Night_View.png/revision/latest/scale-to-width-down/1000?cb=20200512104048'); background-size: cover; background-position: center; background-attachment: fixed; color: #f0e6ff; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
         .box { border: 3px solid #ffd700; padding: 20px; margin: 20px auto; max-width: 500px; border-radius: 15px; background: rgba(0,0,0,0.3); }
         .hint { color: #ce93d8; margin-top: 10px; font-style: italic; display: none; font-weight: bold; }
         #char-img { width: 150px; display: none; margin: 10px auto; border-radius: 10px; border: 2px solid #ffd700; }
@@ -25,8 +25,7 @@
 
     <div id="game-ui">
         <select id="guess-dropdown">
-            <option value="">-- Who said this? --</option>
-            <option value="Adam">Adam</option>
+<option value="Adam">Adam</option>
 <option value="Asmodeus">Asmodeus</option>
 <option value="Barbatos">Barbatos</option>
 <option value="Beelzebub">Beelzebub</option>
@@ -34,7 +33,7 @@
 <option value="Diavolo">Diavolo</option>
 <option value="Leviathan">Leviathan</option>
 <option value="Lilith">Lilith</option>
-<option value="Little D no.2">Little D no.2</option>
+<option value="Little D No. 2">Little D No. 2</option>
 <option value="Luke">Luke</option>
 <option value="Lucifer">Lucifer</option>
 <option value="Mammon">Mammon</option>
@@ -54,7 +53,7 @@
     </div>
 
     <p id="feedback"></p>
-    <p>Guesses: <span id="count">0</span>/5</p>
+    <p>Guesses: <span id="count">0</span>/3</p>
 
     <div class="stats">
         Daily Streak: <span id="streak">0</span> 🔥
@@ -63,9 +62,25 @@
     <script>
         // --- 1. YOUR DATA BANK ---
         const allQuotes = [
-            { quote: "I'll have you know I'm the Great Mammon!", name: "Mammon", origin: "Main Story Lesson 1", species: "Demon", img: "https://example.com/mammon.png" },
-            { quote: "I don't recall giving you permission to speak.", name: "Lucifer", origin: "Main Story Lesson 1", species: "Demon", img: "https://example.com/lucifer.png" },
-            { quote: "Gya-ha!", name: "Little D No. 2", origin: "RAD Hallways", species: "Spirit", img: "https://example.com/littled.png" }
+            { quote: "Leviathan says the Nightmare this time is "kewl" What does "kewl" mean?", 
+              name: "Simeon", game: "Shall we Date", 
+              origin: "Home Screen tips", 
+              img: "https://img.wattpad.com/c3f9fcc4511e7efbade38631f1d58630dc944095/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f524e39584f396536756357564f513d3d2d3936353438343233372e313638383835646335366537653936653137383836393534393630362e6a7067?s=fit&w=720&h=720" },
+            { quote: "I don't recall giving you permission to speak.", 
+              name: "Lucifer", 
+              game: "Main Story Lesson 1", 
+              origin: "Demon", 
+              img: "https://example.com/lucifer.png" },
+            { quote: "Gya-ha!", 
+              name: "Little D No. 2", 
+              game: "RAD Hallways", 
+              origin: "Spirit", 
+              img: "https://example.com/littled.png" }
+            
+
+
+
+            
         ];
 
         // --- 2. DAILY SEED LOGIC ---
@@ -102,14 +117,10 @@
                 feedback.style.color = "#ff5252";
 
                 if (guessCount === 2) {
-                    document.getElementById('hint-origin').innerText = "Hint 1 (Origin): " + todayPuzzle.origin;
+                    document.getElementById('hint-origin').innerText = "Hint (Origin): " + todayPuzzle.origin;
                     document.getElementById('hint-origin').style.display = "block";
                 }
-                if (guessCount === 4) {
-                    document.getElementById('hint-species').innerText = "Hint 2 (Species): " + todayPuzzle.species;
-                    document.getElementById('hint-species').style.display = "block";
-                }
-                if (guessCount >= 5) {
+                if (guessCount >= 3) {
                     feedback.innerText = "Game Over! It was " + todayPuzzle.name;
                     endGame(false);
                 }
